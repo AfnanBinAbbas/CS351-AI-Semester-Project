@@ -2,20 +2,20 @@
 
 ---
 
-# Cat and Mouse Split-Screen Game 🎮
+# Cat and Mouse Split-Screen Game 
 
 A split-screen **Cat and Mouse game** built using Python's Pygame library. The game allows players to place mousetraps strategically to eliminate enemies (mice) while competing against an AI using a **genetic algorithm** for mousetrap placement.
-
+ <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## Features
 
-- 🎯 **Split-Screen Gameplay**: Compete against the AI in a split-screen environment.
-- 🧠 **Genetic Algorithm**: The AI uses a genetic algorithm to decide optimal mousetrap placement.
-- 💥 **Mousetrap Defense Mechanics**: Place mousetraps manually to attack and defeat incoming enemies (mice).
-- 🔊 **Sound Effects and Music**: Background music and effects enhance gameplay.
-- 🏆 **Dynamic Win Conditions**: Compete to eliminate a set number of enemies (mice) before the AI does.
+-  **Split-Screen Gameplay**: Compete against the AI in a split-screen environment.
+-  **Genetic Algorithm**: The AI uses a genetic algorithm to decide optimal mousetrap placement.
+-  **Mousetrap Defense Mechanics**: Place mousetraps manually to attack and defeat incoming enemies (mice).
+-  **Sound Effects and Music**: Background music and effects enhance gameplay.
+-  **Dynamic Win Conditions**: Compete to eliminate a set number of enemies (mice) before the AI does.
 
 ---
-
+ <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## How to Play
 
 1. **Start the Game**:
@@ -37,7 +37,7 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
    - If the AI eliminates all enemies (mice) first, the AI wins.
 
 ---
-
+ <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## Controls
 
 - **Mouse Click**: Place mousetraps on the player's grid.
@@ -45,12 +45,12 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 - **ENTER**: Start or restart the game.
 
 ---
-
+ <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## Dependencies
 
 - **Python 3.x**
 - **Pygame** (install via pip)
-
+ <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ### Installation
 
 1. Install Python and Pygame:
@@ -99,31 +99,31 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
    ```
 
 ---
-
+ <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## Game Overview
-
+ <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ### Grid Layout:
 - The screen is divided into **two halves**:
    - Left Half: Player's area for mousetrap placement.
    - Right Half: AI's area for automated mousetrap placement.
-
+ <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ### mousetraps:
 - **Player**: Manually places mousetraps using mouse clicks.
 - **AI**: Automatically places mousetraps using Genetic algorithm.
-
+ <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ### enemies (mouse):
 - Move randomly but stay within grid boundaries.
 - Have health bars that decrease when hit by mousetraps.
 
 ---
-
+ <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## Notes
 
 - Ensure all **music and sound effect files** are located in the specified `tracks` folder.
 - Modify the `n` variable in the code to adjust the number of targets(mouse) required to win.
 
 ---
-
+ <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## Future Improvements (To-Do)
 
 - Add more **enemy types** with different behaviors.
@@ -132,17 +132,17 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 - Improve AI mousetrap placement strategies for better competition.
 
 ---
-
+ <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## Credits
 
 - **Game Development**: Built using Python and Pygame.
 
 ---
-
+ <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## License
 
 This project is released under the **MIT License**. Feel free to modify and distribute it.
 
 --- 
 
-Enjoy the game! 😊
+Enjoy the game!
