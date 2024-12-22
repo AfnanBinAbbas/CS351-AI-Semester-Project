@@ -1,7 +1,5 @@
-
----
 # Cat and Mouse Split-Screen Game 
-
+---
 A split-screen **Cat and Mouse game** built using Python's Pygame library. The game allows players to place mousetraps strategically to eliminate enemies (mice) while competing against an AI using a **genetic algorithm** for mousetrap placement.
 
 ### Features
