@@ -3,9 +3,8 @@
 # Cat and Mouse Split-Screen Game 
 
 A split-screen **Cat and Mouse game** built using Python's Pygame library. The game allows players to place mousetraps strategically to eliminate enemies (mice) while competing against an AI using a **genetic algorithm** for mousetrap placement.
- 
- <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
-## Features
+
+### Features
 
 -  **Split-Screen Gameplay**: Compete against the AI in a split-screen environment.
 -  **Genetic Algorithm**: The AI uses a genetic algorithm to decide optimal mousetrap placement.
@@ -13,8 +12,9 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 -  **Sound Effects and Music**: Background music and effects enhance gameplay.
 -  **Dynamic Win Conditions**: Compete to eliminate a set number of enemies (mice) before the AI does.
 
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ---
- <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
 ## How to Play
 
 1. **Start the Game**:
