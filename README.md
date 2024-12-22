@@ -13,7 +13,6 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 -  **Dynamic Win Conditions**: Compete to eliminate a set number of enemies (mice) before the AI does.
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
----
 
 ## How to Play
 
@@ -35,7 +34,6 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
    - If you defeat all enemies (mice) first, you win.
    - If the AI eliminates all enemies (mice) first, the AI wins.
 
----
  <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## Controls
 
@@ -43,13 +41,14 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 - **ESC**: Quit the game at any time.
 - **ENTER**: Start or restart the game.
 
----
- <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## Dependencies
 
 - **Python 3.x**
 - **Pygame** (install via pip)
- <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ### Installation
 
 1. Install Python and Pygame:
@@ -96,33 +95,30 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
    ```bash
    python app.py
    ```
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+### Game Overview:
 
----
- <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
-## Game Overview
- <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ### Grid Layout:
 - The screen is divided into **two halves**:
    - Left Half: Player's area for mousetrap placement.
    - Right Half: AI's area for automated mousetrap placement.
- <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
-### mousetraps:
+ 
+ ### mousetraps:
 - **Player**: Manually places mousetraps using mouse clicks.
 - **AI**: Automatically places mousetraps using Genetic algorithm.
- <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
-### enemies (mouse):
+ 
+ ### enemies (mouse):
 - Move randomly but stay within grid boundaries.
 - Have health bars that decrease when hit by mousetraps.
 
----
- <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## Notes
 
 - Ensure all **music and sound effect files** are located in the specified `tracks` folder.
 - Modify the `n` variable in the code to adjust the number of targets(mouse) required to win.
 
----
- <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## Future Improvements (To-Do)
 
 - Add more **enemy types** with different behaviors.
@@ -130,14 +126,12 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 - Introduce more **levels** and increasing difficulty.
 - Improve AI mousetrap placement strategies for better competition.
 
----
- <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## Credits
 
 - **Game Development**: Built using Python and Pygame.
 
----
- <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 ## License
 
 This project is released under the **MIT License**. Feel free to modify and distribute it.
