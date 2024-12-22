@@ -33,6 +33,7 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
    - If the AI eliminates all enemies (mice) first, the AI wins.
 
  <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+ 
 ## Controls
 
 - **Mouse Click**: Place mousetraps on the player's grid.
@@ -41,12 +42,14 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
 ## Dependencies
 
 - **Python 3.x**
 - **Pygame** (install via pip)
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
 ### Installation
 
 1. Install Python and Pygame:
@@ -94,9 +97,11 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
    python app.py
    ```
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
 ### Game Overview:
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
 ### Grid Layout:
 - The screen is divided into **two halves**:
    - Left Half: Player's area for mousetrap placement.
@@ -111,12 +116,14 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 - Have health bars that decrease when hit by mousetraps.
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
 ## Notes
 
 - Ensure all **music and sound effect files** are located in the specified `tracks` folder.
 - Modify the `n` variable in the code to adjust the number of targets(mouse) required to win.
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
 ## Future Improvements (To-Do)
 
 - Add more **enemy types** with different behaviors.
@@ -125,11 +132,13 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 - Improve AI mousetrap placement strategies for better competition.
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
 ## Credits
 
 - **Game Development**: Built using Python and Pygame.
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
 ## License
 
 This project is released under the **MIT License**. Feel free to modify and distribute it.
