@@ -69,3 +69,46 @@ class Enemy:
         pygame.draw.rect(screen, RED, (self.x, self.y, GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, GREEN, (self.x, self.y - 5, GRID_SIZE * (self.health / 100), 5))
 
+# Tower Class
+class Tower:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.range = GRID_SIZE * 3
+        self.damage = 20
+        self.cooldown = 30
+        self.timer = 0
+
+    def attack(self, enemies):
+        if self.timer == 0:
+            for enemy in enemies:
+                distance = ((self.x - enemy.x) ** 2 + (self.y - enemy.y) ** 2) ** 0.5
+                if distance <= self.range:
+                    enemy.health -= self.damage
+                    self.timer = self.cooldown
+                    return
+        if self.timer > 0:
+            self.timer -= 1
+
+    def draw(self, offset=0):
+        pygame.draw.circle(screen, BLUE, (self.x + offset, self.y), GRID_SIZE // 2)
+
+# Draw the grid
+def draw_grid(offset=0):
+    for x in range(offset, SCREEN_WIDTH // 2 + offset, GRID_SIZE):
+        pygame.draw.line(screen, GRAY, (x, 0), (x, SCREEN_HEIGHT))
+    for y in range(0, SCREEN_HEIGHT, GRID_SIZE):
+        pygame.draw.line(screen, GRAY, (offset, y), (SCREEN_WIDTH // 2 + offset, y))
+
+def draw_wall():
+    pygame.draw.rect(screen, BLACK, (SCREEN_WIDTH // 2 - 2, 0, 4, SCREEN_HEIGHT))
+
+
+# Background image
+background_image = pygame.image.load("images/background.jpg")
+background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+# Background music
+pygame.mixer.init()
+pygame.mixer.music.load("tracks/background_music_1.mp3")
+pygame.mixer.music.play(-1)
