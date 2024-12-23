@@ -112,3 +112,56 @@ background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREE
 pygame.mixer.init()
 pygame.mixer.music.load("tracks/background_music_1.mp3")
 pygame.mixer.music.play(-1)
+
+# Main game function
+def main_game():
+    enemies = [Enemy() for _ in range(10)]
+    enemies_ai = [Enemy(offset=SCREEN_WIDTH // 2) for _ in range(10)]
+    towers = []
+    paused = False
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    paused = not paused
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                if mouse_x < SCREEN_WIDTH // 2:
+                    towers.append(Tower(mouse_x, mouse_y))
+
+        if not paused:
+            # Draw background, grid, and wall
+            screen.blit(background_image, (0, 0))
+            draw_grid()
+            draw_grid(offset=SCREEN_WIDTH // 2)
+            draw_wall()
+
+            # Update and draw enemies
+            for enemy in enemies[:]:
+                enemy.move()
+                if enemy.health <= 0:
+                    enemies.remove(enemy)
+                enemy.draw()
+
+            for enemy in enemies_ai[:]:
+                enemy.move()
+                if enemy.health <= 0:
+                    enemies_ai.remove(enemy)
+                enemy.draw()
+
+            # Draw and update towers
+            for tower in towers:
+                tower.draw()
+                tower.attack(enemies)
+
+            # Update the display
+            pygame.display.flip()
+            clock.tick(FPS)
+
+# Run main menu
+if __name__ == "__main__":
+    main_menu()
