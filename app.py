@@ -9,7 +9,7 @@ pygame.init()
 SCREEN_WIDTH = 1200  # Double the width for split screen
 SCREEN_HEIGHT = 600
 GRID_SIZE = 5  # Each grid cell is 40x40
-FPS = 60
+FPS = 90
 
 # Colors
 WHITE = (255, 255, 255)
@@ -27,7 +27,7 @@ pygame.display.set_caption(" Cat and Mouse Split-Screen Game")
 clock = pygame.time.Clock()
 
 # Fonts
-font = pygame.font.Font(None, 48)
+font = pygame.font.Font(None, 72)  # Title Font
 small_font = pygame.font.Font(None, 36)  # Small Font for Instructions
 
 # Draw the grid
@@ -260,7 +260,7 @@ def main():
 def main_menu():
     while True:
         screen.fill(BLACK)
-        title_text = font.render("Cat And Mouse Game", True, WHITE)
+        title_text = font.render("Tower Defense Game", True, WHITE)
         start_text = small_font.render("Press ENTER to Start", True, WHITE)
         screen.blit(title_text, (SCREEN_WIDTH // 2 - 200, SCREEN_HEIGHT // 2 - 50))
         screen.blit(start_text, (SCREEN_WIDTH // 2 - 150, SCREEN_HEIGHT // 2 + 50))
