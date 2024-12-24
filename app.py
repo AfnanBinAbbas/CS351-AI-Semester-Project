@@ -1,70 +1,116 @@
 import pygame
 import sys
 import random
+import pandas as pd
+import matplotlib.pyplot as plt
+import os
 
 # Initialize Pygame
-pygame.init()
+try:
+    pygame.init()
+except pygame.error as e:
+    print(f"Error initializing Pygame: {e}")
+    sys.exit()
 
 # Screen and grid settings
-SCREEN_WIDTH = 1200  # Double the width for split screen
+SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
-GRID_SIZE = 5  # Each grid cell is 40x40
-FPS = 90
+GRID_SIZE = 10
+FPS = 60
 
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GRAY = (200, 200, 200)
 RED = (255, 0, 0)
-BLUE = (0, 0, 255)
-GREEN = (0, 255, 0)
 ORANGE = (250, 156, 28)
 YELLOW = (255, 255, 0)
 
 # Initialize the screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption(" Cat and Mouse Split-Screen Game")
+pygame.display.set_caption("Cat and Mouse Split-Screen Game")
 clock = pygame.time.Clock()
 
 # Fonts
-font = pygame.font.Font(None, 72)  # Title Font
-small_font = pygame.font.Font(None, 36)  # Small Font for Instructions
+try:
+    font = pygame.font.Font("fonts/Manti Sans Bold Demo.otf", 62)
+    # small_font = pygame.font.Font("fonts/Manti Sans Light Demo.otf", 20) 
+    xsmall_font = pygame.font.Font("fonts/Manti Sans Light Demo.otf", 20)
 
-# Draw the grid
+except pygame.error as e:
+    print(f"Error loading fonts: {e}")
+    sys.exit()
+
+# Load sounds
+try:
+    pygame.mixer.music.load("tracks/background_music_2.mp3")
+    game_music = "tracks/background_music_1.mp3"
+    enemy_defeat_sound = pygame.mixer.Sound("tracks/mouse_hit5.mp3")
+    win_sound = pygame.mixer.Sound("tracks/win_sound.mp3")
+    lose_sound = pygame.mixer.Sound("tracks/lose_sound.mp3")
+except pygame.error as e:
+    print(f"Error loading sound files: {e}")
+    sys.exit()
+
+LOSE_DELAY = 500  # 0.5 seconds
+
+# Play main menu music
+pygame.mixer.music.play(-1)
+# Define the file path for logs
+LOG_FILE_PATH = "logs/game_logs.csv"
+# Helper function to append non-empty rows to DataFrame and save to file
+def append_log_data(dataframe, new_data):
+    try:
+        new_data_df = pd.DataFrame(new_data)
+        # Exclude empty or all-NA rows explicitly before concatenating
+        new_data_df = new_data_df.dropna(how='all')
+        if not new_data_df.empty:
+            dataframe = pd.concat([dataframe, new_data_df], ignore_index=True)
+            # Save the updated dataframe to the log file
+            dataframe.to_csv(LOG_FILE_PATH, index=False)  # Save as CSV file
+        return dataframe
+    except Exception as e:
+        print(f"Error appending log data: {e}")
+        return dataframe
+
 def draw_grid(offset=0):
+    """Draws the grid lines on the screen."""
     for x in range(offset, SCREEN_WIDTH // 2 + offset, GRID_SIZE):
         pygame.draw.line(screen, GRAY, (x, 0), (x, SCREEN_HEIGHT))
     for y in range(0, SCREEN_HEIGHT, GRID_SIZE):
         pygame.draw.line(screen, GRAY, (offset, y), (SCREEN_WIDTH // 2 + offset, y))
 
 def draw_wall():
+    """Draws the dividing wall between the two halves of the screen."""
     pygame.draw.rect(screen, YELLOW, (SCREEN_WIDTH // 2 - 2, 0, 4, SCREEN_HEIGHT))
 
-# --- Load Music and Sound Effects ---
-pygame.mixer.music.load("tracks/background_music_2.mp3")  # Main menu background music
-game_music = "tracks/background_music_1.mp3"  # In-game background music
-# tower_place_sound = pygame.mixer.Sound("tower_place.wav")  # Sound for placing a tower
-enemy_defeat_sound = pygame.mixer.Sound("tracks/enemy_hit5.mp3")  # Sound for enemy defeat
-win_sound = pygame.mixer.Sound("tracks/win_sound.mp3")  # Sound for player win
-lose_sound = pygame.mixer.Sound("tracks/lose_sound.mp3")  # Sound for AI win
-
-# Add a delay before playing the losing sound (in milliseconds)
-LOSE_DELAY = 500  # 0.5 seconds
-
-# Play main menu music
-pygame.mixer.music.play(-1)  # Loop forever
-
-# Enemy class
-class Enemy:
-    def __init__(self, offset=0):
+class Mouse:
+    def __init__(self, offset=0, use_image=False):
         self.x = random.randint(0, SCREEN_WIDTH // GRID_SIZE // 2 - 1) * GRID_SIZE + offset
         self.y = random.randint(0, SCREEN_HEIGHT // GRID_SIZE - 1) * GRID_SIZE
         self.speed = 2
         self.health = 100
         self.direction = random.choice(["UP", "DOWN", "LEFT", "RIGHT"])
         self.offset = offset
+        self.use_image = use_image
+        if self.use_image:
+            try:
+                # Load images for each direction
+                self.images = {
+                    "UP": pygame.image.load("images/mouse_up.png"),
+                    "DOWN": pygame.image.load("images/mouse_down.png"),
+                    "LEFT": pygame.image.load("images/mouse_left.png"),
+                    "RIGHT": pygame.image.load("images/mouse_right.png")
+                }
+                # Scale images to grid size
+                self.images = {key: pygame.transform.scale(img, (GRID_SIZE, GRID_SIZE)) for key, img in self.images.items()}
+                self.image = self.images[self.direction]
+            except pygame.error as e:
+                print(f"Error loading mouse images: {e}")
+                self.use_image = False  # Fallback to default square if image loading fails
 
     def move(self):
+        """Moves the mouse randomly within the grid."""
         if self.direction == "UP":
             self.y -= self.speed
         elif self.direction == "DOWN":
@@ -74,11 +120,13 @@ class Enemy:
         elif self.direction == "RIGHT":
             self.x += self.speed
 
-        # Randomly change direction
+    # Randomly change direction
         if random.randint(0, 50) == 0:
             self.direction = random.choice(["UP", "DOWN", "LEFT", "RIGHT"])
+            if self.use_image:
+                self.image = self.images[self.direction]  # Update the image based on the direction
 
-        # Keep enemy within grid bounds
+        # Keep mouse within grid bounds
         if self.x < self.offset:
             self.x = self.offset
             self.direction = "RIGHT"
@@ -94,39 +142,50 @@ class Enemy:
             self.direction = "UP"
 
     def draw(self):
-        pygame.draw.rect(screen, GRAY, (self.x, self.y, GRID_SIZE, GRID_SIZE))
+        """Draws the mouse and its health bar."""
+        if self.use_image:
+            screen.blit(self.image, (self.x, self.y))  # Draw the mouse image
+        else:
+            pygame.draw.rect(screen, GRAY, (self.x, self.y, GRID_SIZE, GRID_SIZE))  # Draw the gray box
+
+        # Draw health bar
         pygame.draw.rect(screen, RED, (self.x, self.y - 5, GRID_SIZE * (self.health / 100), 5))
 
     def take_damage(self, damage):
+        """Reduces the mouse's health."""
         self.health -= damage
 
-# Tower class
-class Tower:
+
+class Mousetrap:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.range = GRID_SIZE * 3
-        self.damage = 20
-        self.cooldown = 30
-        self.timer = 0
+        self.range = GRID_SIZE * 3  # Effective range of the trap
+        self.damage = 5  # Incremental damage per attack
+        self.cooldown = 40  # Time (in frames) between attacks
+        self.timer = 0  # Timer to handle cooldowns
 
-    def attack(self, enemies):
-        if self.timer == 0:
-            for enemy in enemies:
-                distance = ((self.x - enemy.x) ** 2 + (self.y - enemy.y) ** 2) ** 0.5
-                if distance <= self.range:
-                    enemy.take_damage(self.damage)
-                    pygame.mixer.Sound.play(enemy_defeat_sound)
-                    self.timer = self.cooldown
-                    return True
+    def attack(self, mice):
+        """Attacks mice within range incrementally."""
+        if self.timer == 0:  # If trap is ready to attack
+            for mouse in mice:
+                # Calculate Euclidean distance to the mouse
+                distance = ((self.x - mouse.x) ** 2 + (self.y - mouse.y) ** 2) ** 0.5
+                if distance <= self.range:  # If mouse is in range
+                    mouse.take_damage(self.damage)  # Apply incremental damage
+                    pygame.mixer.Sound.play(enemy_defeat_sound)  # Play attack sound
+                    self.timer = self.cooldown  # Reset cooldown timer
+                    break  # Stop attacking other mice this frame
+
+        # Decrease timer if not ready yet
         if self.timer > 0:
             self.timer -= 1
-        return False
 
     def draw(self, offset=0):
+        """Draws the mousetrap."""
         pygame.draw.circle(screen, ORANGE, (self.x + offset, self.y), GRID_SIZE // 2)
 
-# Genetic Algorithm for AI tower placement
+
 class GeneticAlgorithm:
     def __init__(self, population_size, mutation_rate):
         self.population_size = population_size
@@ -134,41 +193,86 @@ class GeneticAlgorithm:
         self.population = []
 
     def initialize_population(self):
+        """Create initial random population of mousetraps."""
         for _ in range(self.population_size):
-            towers = [
-                (random.randint(0, SCREEN_WIDTH // GRID_SIZE // 2 - 1) * GRID_SIZE + SCREEN_WIDTH // 2 + GRID_SIZE // 2,
-                 random.randint(0, SCREEN_HEIGHT // GRID_SIZE - 1) * GRID_SIZE + GRID_SIZE // 2)
+            mousetraps = [
+                (random.randint(SCREEN_WIDTH // 2 // GRID_SIZE, SCREEN_WIDTH // GRID_SIZE - 1) * GRID_SIZE,
+                 random.randint(0, SCREEN_HEIGHT // GRID_SIZE - 1) * GRID_SIZE)
                 for _ in range(random.randint(5, 10))
             ]
-            self.population.append(towers)
+            self.population.append(mousetraps)
+
+    def fitness(self, mousetraps, mice):
+        """Calculate fitness as the number of mice in range."""
+        fitness = 0
+        for trap_x, trap_y in mousetraps:
+            for mouse in mice:
+                distance = ((trap_x - mouse.x) ** 2 + (trap_y - mouse.y) ** 2) ** 0.5
+                if distance <= GRID_SIZE * 3:  # Effective range
+                    fitness += 1
+        return fitness
+
+    def select_parents(self, mice):
+        """Select parents based on fitness."""
+        fitness_scores = [self.fitness(mousetraps, mice) for mousetraps in self.population]
+        sorted_population = [x for _, x in sorted(zip(fitness_scores, self.population), reverse=True)]
+        return sorted_population[:2]
+
+    def crossover(self, parent1, parent2):
+        """Perform crossover to create offspring."""
+        split = len(parent1) // 2
+        child = parent1[:split] + parent2[split:]
+        return child
+
+    def mutate(self, mousetraps):
+        """Mutate some traps with random positions."""
+        if random.random() < self.mutation_rate:
+            index = random.randint(0, len(mousetraps) - 1)
+            mousetraps[index] = (
+                random.randint(SCREEN_WIDTH // 2 // GRID_SIZE, SCREEN_WIDTH // GRID_SIZE - 1) * GRID_SIZE,
+                random.randint(0, SCREEN_HEIGHT // GRID_SIZE - 1) * GRID_SIZE
+            )
+
+    def create_new_generation(self, mice):
+        """Generate a new population."""
+        # Select the two best parents based on fitness
+        parent1, parent2 = self.select_parents(mice)
+        
+        # Clear the current population
+        self.population = []
+        
+        # Generate a new population
+        for _ in range(self.population_size):
+            child = self.crossover(parent1, parent2)
+            self.mutate(child)
+            self.population.append(child)
 
 def win(winner, n):
-    pygame.mixer.music.stop()  # Stop game music
-
-    if winner == "AI":  # Check if the AI wins
-        pygame.time.delay(LOSE_DELAY)  # Add delay before playing lose sound
-        pygame.mixer.Sound.play(lose_sound)  # Play lose sound
+    pygame.mixer.music.stop()
+    if winner == "AI":
+        pygame.time.delay(LOSE_DELAY)
+        pygame.mixer.Sound.play(lose_sound)
     else:
+        pygame.time.delay(LOSE_DELAY)
         pygame.mixer.Sound.play(win_sound)
-    """
-    Displays the winning message and waits for the player to quit or restart.
-    :param winner: "Player" or "AI"
-    :param n: Number of kills required to win
-    """
-    font_large = pygame.font.Font(None, 72)
-    font_small = pygame.font.Font(None, 36)
+
+    font_large = pygame.font.Font("fonts/Manti Sans Bold Demo.otf", 72)
+    font_small = pygame.font.Font("fonts/Manti Sans Black Demo.otf", 36)
+    font_xsmall = pygame.font.Font("fonts/Manti Sans Light Demo.otf", 20)
 
     while True:
         screen.fill(BLACK)
-        # Display win text
         win_text = font_large.render(f"{winner} Wins!", True, WHITE)
         kills_text = font_small.render(f"Total Kills: {n}", True, WHITE)
-        restart_text = font_small.render("Press ENTER to Restart or ESC to Quit", True, WHITE)
+        restart_text = font_xsmall.render("Press BACKSPACE for Main Menu", True, WHITE)
+        restart_text2 = font_xsmall.render("Press S to show Performance Graph", True, WHITE)
+        restart_text3 = font_xsmall.render("Press ESC to Quit", True, WHITE)
 
-        # Center the text
-        screen.blit(win_text, (SCREEN_WIDTH // 2 - win_text.get_width() // 2, SCREEN_HEIGHT // 2 - 50))
-        screen.blit(kills_text, (SCREEN_WIDTH // 2 - kills_text.get_width() // 2, SCREEN_HEIGHT // 2))
-        screen.blit(restart_text, (SCREEN_WIDTH // 2 - restart_text.get_width() // 2, SCREEN_HEIGHT // 2 + 50))
+        screen.blit(win_text, (SCREEN_WIDTH // 2 - win_text.get_width() // 2, SCREEN_HEIGHT // 4))
+        screen.blit(kills_text, (SCREEN_WIDTH // 2 - kills_text.get_width() // 2, SCREEN_HEIGHT // 2 - 50))
+        screen.blit(restart_text, (SCREEN_WIDTH // 2 - restart_text.get_width() // 2, SCREEN_HEIGHT // 2 + 30))
+        screen.blit(restart_text2, (SCREEN_WIDTH // 2 - restart_text2.get_width() // 2, SCREEN_HEIGHT // 2 + 60))
+        screen.blit(restart_text3, (SCREEN_WIDTH // 2 - restart_text3.get_width() // 2, SCREEN_HEIGHT // 2 + 90))
 
         pygame.display.flip()
 
@@ -177,26 +281,82 @@ def win(winner, n):
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:  # Restart the game
-                    main()
-                if event.key == pygame.K_ESCAPE:  # Go to main menu
+                if event.key == pygame.K_BACKSPACE:
+                    main_menu()
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+                if event.key == pygame.K_s:
+                    visualize_performance()
                     main_menu()
 
-# Main game loop
+
+def visualize_performance():
+    """Visualizes the logged performance data."""
+    try:
+        global log_data
+        plt.figure(figsize=(10, 6))
+        plt.plot(log_data['Generation'], log_data['AI_Kills'], label='AI Kills', color='red')
+        plt.plot(log_data['Generation'], log_data['Player_Kills'], label='Player Kills', color='blue')
+        plt.plot(log_data['Generation'], log_data['Average_AI_Health'], label='Avg AI Health', color='green')
+        plt.xlabel('Generation')
+        plt.ylabel('Metrics')
+        plt.title('AI Performance Metrics')
+        plt.legend()
+        plt.grid()
+        plt.show()
+    except Exception as e:
+        print(f"Error visualizing performance data: {e}")
+
+# Main function and menu remain unchanged
+
+def main_menu():
+    while True:
+        screen.fill(BLACK)
+        title_text = font.render("Cat And Mouse Game", True, WHITE)
+        play_text = xsmall_font.render("Press ENTER to Play", True, WHITE)
+        quit_text = xsmall_font.render("Press ESC to Quit", True, WHITE)
+
+        screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 4))
+        screen.blit(play_text, (SCREEN_WIDTH // 2 - play_text.get_width() // 2, SCREEN_HEIGHT // 2))
+        screen.blit(quit_text, (SCREEN_WIDTH // 2 - quit_text.get_width() // 2, SCREEN_HEIGHT // 2 + 40))
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    main()
+                if event.key == pygame.K_ESCAPE:
+
+                    pygame.quit()
+                    sys.exit()
+                # if event.key == pygame.K_r:
+                #     visualize_performance()
+
 def main():
     pygame.mixer.music.load(game_music)
-    pygame.mixer.music.play(-1)  # Start game music
-    towers_player = []
-    n = 5  # Number of enemies
-    enemies = [Enemy() for _ in range(n)]
-    enemies_ai = [Enemy(offset=SCREEN_WIDTH // 2) for _ in range(n)]
+    pygame.mixer.music.play(-1)
+    
+    mousetraps_player = []
+    n = 15
+    mice = [Mouse(use_image=True) for _ in range(n)]  # Player's mice
+    mice_ai = [Mouse(offset=SCREEN_WIDTH // 2, use_image=True) for _ in range(n)]  # AI's mice
 
     ga = GeneticAlgorithm(population_size=n, mutation_rate=0.1)
     ga.initialize_population()
-    towers_ai = ga.population[0]
+    mousetraps_ai = ga.population[0]
 
     player_kills = 0
     ai_kills = 0
+    global log_data
+    log_data = pd.DataFrame(columns=['Generation', 'AI_Kills', 'Player_Kills', 'Average_AI_Health'])
+
+    generation = 0
+    f=5 #frequency of generating a new generation
 
     while True:
         for event in pygame.event.get():
@@ -208,70 +368,61 @@ def main():
                 if mouse_x < SCREEN_WIDTH // 2:
                     grid_x = (mouse_x // GRID_SIZE) * GRID_SIZE + GRID_SIZE // 2
                     grid_y = (mouse_y // GRID_SIZE) * GRID_SIZE + GRID_SIZE // 2
-                    towers_player.append(Tower(grid_x, grid_y))
+                    mousetraps_player.append(Mousetrap(grid_x, grid_y))
 
-        # Update enemies and check player win condition
-        for enemy in enemies[:]:
-            enemy.move()
-            if enemy.health <= 0:
-                enemies.remove(enemy)
+        for mouse in mice[:]:
+            mouse.move()
+            if mouse.health <= 0:
+                mice.remove(mouse)
                 player_kills += 1
-                if player_kills == n:  # Player wins
+                if player_kills == n:
                     win("Player", n)
 
-        # Update AI enemies and check AI win condition
-        for enemy in enemies_ai[:]:
-            enemy.move()
-            if enemy.health <= 0:
-                enemies_ai.remove(enemy)
+        for mouse in mice_ai[:]:
+            mouse.move()
+            if mouse.health <= 0:
+                mice_ai.remove(mouse)
                 ai_kills += 1
-                if ai_kills == n:  # AI wins
+                if ai_kills == n:
                     win("AI", n)
+        
+        # Genetic Algorithm update. Create a new generation every n frames
+        
+        if generation % f == 0:
+            ga.create_new_generation(mice_ai)
 
-        # Draw game elements
+        # UI update
+        avg_health = sum(mouse.health for mouse in mice_ai) / len(mice_ai) if mice_ai else 0
+        log_data = append_log_data(log_data, {
+            'Generation': [generation],
+            'AI_Kills': [ai_kills],
+            'Player_Kills': [player_kills],
+            'Average_AI_Health': [avg_health]
+        })
+        generation += 1
+
         screen.fill(BLACK)
         draw_wall()
 
-        for tower in towers_player:
-            tower.draw()
-            tower.attack(enemies)
+        for mousetrap in mousetraps_player:
+            mousetrap.draw()
+            mousetrap.attack(mice)
 
-        for tower_pos in towers_ai:
-            tower = Tower(tower_pos[0], tower_pos[1])
-            tower.draw(offset=SCREEN_WIDTH // 2)
-            tower.attack(enemies_ai)
+        for mousetrap_pos in ga.population[0]:
+            mousetrap = Mousetrap(mousetrap_pos[0], mousetrap_pos[1])
+            mousetrap.draw(offset=0)
+            mousetrap.attack(mice_ai)
 
-        for enemy in enemies:
+        for enemy in mice:
             enemy.draw()
-        for enemy in enemies_ai:
+        for enemy in mice_ai:
             enemy.draw()
 
-        # Display scores
-        font_small = pygame.font.Font(None, 36)
-        player_score_text = font_small.render(f"Player's Score: {player_kills}", True, WHITE)
-        ai_score_text = font_small.render(f"AI's Score: {ai_kills}", True, WHITE)
+        player_score_text = xsmall_font.render(f"Player's Score: {player_kills}", True, WHITE)
+        ai_score_text = xsmall_font.render(f"AI's Score: {ai_kills}", True, WHITE)
         screen.blit(player_score_text, (10, 10))
         screen.blit(ai_score_text, (SCREEN_WIDTH // 2 + 10, 10))
 
         pygame.display.flip()
         clock.tick(FPS)
-
-# Main Menu
-def main_menu():
-    while True:
-        screen.fill(BLACK)
-        title_text = font.render("Tower Defense Game", True, WHITE)
-        start_text = small_font.render("Press ENTER to Start", True, WHITE)
-        screen.blit(title_text, (SCREEN_WIDTH // 2 - 200, SCREEN_HEIGHT // 2 - 50))
-        screen.blit(start_text, (SCREEN_WIDTH // 2 - 150, SCREEN_HEIGHT // 2 + 50))
-        pygame.display.flip()
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                main()
-
-if __name__ == "__main__":
-    main_menu()
+main_menu()
