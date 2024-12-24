@@ -15,9 +15,9 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 
 ---
 
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
-
 ## How to Play
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
 1. **Start the Game**:
    - Run the Python script.
