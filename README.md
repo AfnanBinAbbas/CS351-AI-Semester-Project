@@ -1,20 +1,21 @@
 ---
 
----
-
 # Cat and Mouse Split-Screen Game 🎮
 
 A split-screen **Cat and Mouse game** built using Python's Pygame library. The game allows players to place mousetraps strategically to eliminate enemies (mice) while competing against an AI using a **genetic algorithm** for mousetrap placement.
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
 ## Features
 
-- 🎯 **Split-Screen Gameplay**: Compete against the AI in a split-screen environment.
-- 🧠 **Genetic Algorithm**: The AI uses a genetic algorithm to decide optimal mousetrap placement.
-- 💥 **Mousetrap Defense Mechanics**: Place mousetraps manually to attack and defeat incoming enemies (mice).
-- 🔊 **Sound Effects and Music**: Background music and effects enhance gameplay.
-- 🏆 **Dynamic Win Conditions**: Compete to eliminate a set number of enemies (mice) before the AI does.
+-  **Split-Screen Gameplay**: Compete against the AI in a split-screen environment.
+-  **Genetic Algorithm**: The AI uses a genetic algorithm to decide optimal mousetrap placement.
+-  **Mousetrap Defense Mechanics**: Place mousetraps manually to attack and defeat incoming enemies (mice).
+-  **Sound Effects and Music**: Background music and effects enhance gameplay.
+-  **Dynamic Win Conditions**: Compete to eliminate a set number of enemies (mice) before the AI does.
 
 ---
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
 ## How to Play
 
@@ -38,6 +39,8 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 
 ---
 
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
 ## Controls
 
 - **Mouse Click**: Place mousetraps on the player's grid.
@@ -57,6 +60,11 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
    ```bash
    pip install pygame
 
+---
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+## Directory Structure
 
 2. Place all required files (e.g., sound and music files) in a folder structure as follows:
 
@@ -102,6 +110,8 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 
 ## Game Overview
 
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
 ### Grid Layout:
 - The screen is divided into **two halves**:
    - Left Half: Player's area for mousetrap placement.
@@ -145,4 +155,4 @@ This project is released under the **MIT License**. Feel free to modify and dist
 
 --- 
 
-Enjoy the game! 😊
+Enjoy the game!!
