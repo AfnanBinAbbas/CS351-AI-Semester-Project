@@ -17,8 +17,6 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 
 ## How to Play
 
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
-
 1. **Start the Game**:
    - Run the Python script.
    - Press `ENTER` at the main menu to begin.
@@ -36,8 +34,6 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 5. **Winning**:
    - If you defeat all enemies (mice) first, you win.
    - If the AI eliminates all enemies (mice) first, the AI wins.
-
----
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
@@ -59,8 +55,6 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
 1. Install Python and Pygame:
    ```bash
    pip install pygame
-
----
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
@@ -105,8 +99,6 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
    ```bash
    python app.py
    ```
-
----
 
 ## Game Overview
 
