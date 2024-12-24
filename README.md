@@ -56,8 +56,6 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
    ```bash
    pip install pygame
 
----
-
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
 ## Directory Structure
@@ -101,8 +99,6 @@ A split-screen **Cat and Mouse game** built using Python's Pygame library. The g
    ```bash
    python app.py
    ```
-
----
 
 ## Game Overview
 
