@@ -334,27 +334,57 @@ def visualize_performance():
 
 # Main function and menu
 
+# def main_menu():
+#     while True:
+#         screen.fill(BLACK)
+#         title_text = font.render("Cat And Mouse Game", True, WHITE)
+#         play_text = xsmall_font.render("Press ENTER to Play", True, WHITE)
+#         quit_text = xsmall_font.render("Press ESC to Quit", True, WHITE)
+
+#         screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 4))
+#         screen.blit(play_text, (SCREEN_WIDTH // 2 - play_text.get_width() // 2, SCREEN_HEIGHT // 2))
+#         screen.blit(quit_text, (SCREEN_WIDTH // 2 - quit_text.get_width() // 2, SCREEN_HEIGHT // 2 + 40))
+
+#         pygame.display.flip()
+
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 pygame.quit()
+#                 sys.exit()
+#             if event.type == pygame.KEYDOWN:
+#                 if event.key == pygame.K_RETURN:
+#                     main()
+#                 if event.key == pygame.K_ESCAPE:
+
+#                     pygame.quit()
+#                     sys.exit()
+#                 # if event.key == pygame.K_r:
+#                 #     visualize_performance()
+
 def main_menu():
     try:
         # Load background image
         background_image = pygame.image.load("images/background_image.png")
-        background_image = pygame.transform.scale(background_image, (300, 300))
-        background_image_position = (150,200)
+        background_image = pygame.transform.scale(background_image, (500, 500))
+        background_image_position = (SCREEN_WIDTH//2,SCREEN_HEIGHT//2 - 60)
         
     except pygame.error as e:
         print(f"Error loading background image: {e}")
         sys.exit()
 
-    while True:
-        screen.fill(BLACK)
-        screen.blit(background_image, background_image_position)  # Blit the background image
-        title_text = font.render("Cat And Mouse Game", True, WHITE)
-        play_text = xsmall_font.render("Press ENTER to Play", True, WHITE)
-        quit_text = xsmall_font.render("Press ESC to Quit", True, WHITE)
+    selected = 0
+    menu_options = ["Start Game", "Quit Game"]
 
-        screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 4 - 30))
-        screen.blit(play_text, (SCREEN_WIDTH // 2 - play_text.get_width() // 2, SCREEN_HEIGHT // 2 - 10))
-        screen.blit(quit_text, (SCREEN_WIDTH // 2 - quit_text.get_width() // 2, SCREEN_HEIGHT // 2 + 30))
+    while True:
+        screen.blit(background_image, background_image_position)  # Blit the background image
+        text = xsmall_font.render("Press ENTER to Play", True, WHITE)
+        title = font.render("Cat and Mouse Game", True, WHITE)
+        screen.blit(title, (SCREEN_WIDTH // 2 - title.get_width() // 2, 100))
+
+        for i, option in enumerate(menu_options):
+            color = WHITE if i == selected else GRAY
+            text = xsmall_font.render(option, True, color)
+            screen.blit(text, (SCREEN_WIDTH // 2 - text.get_width() // 2, 200 + i * 70))
 
         pygame.display.flip()
 
@@ -363,17 +393,21 @@ def main_menu():
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    selected = (selected - 1) % len(menu_options)
+                if event.key == pygame.K_DOWN:
+                    selected = (selected + 1) % len(menu_options)
                 if event.key == pygame.K_RETURN:
-                    main()
-                if event.key == pygame.K_ESCAPE:
+                    if menu_options[selected] == "Start Game":
+                        main()
+                    elif menu_options[selected] == "Quit Game":
+                        pygame.quit()
+                        sys.exit()
 
-                    pygame.quit()
-                    sys.exit()
-                # if event.key == pygame.K_r:
-                #     visualize_performance()
 
 def main():
     pygame.mixer.music.load(game_music)
+
     pygame.mixer.music.play(-1)
     
     mousetraps_player = []
