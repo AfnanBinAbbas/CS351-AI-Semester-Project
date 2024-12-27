@@ -446,10 +446,18 @@ def main():
         for enemy in mice_ai:
             enemy.draw()
 
+        # Display Player and AI scores
         player_score_text = xsmall_font.render(f"Player's Score: {player_kills}", True, WHITE)
         ai_score_text = xsmall_font.render(f"AI's Score: {ai_kills}", True, WHITE)
         screen.blit(player_score_text, (10, 10))
         screen.blit(ai_score_text, (SCREEN_WIDTH // 2 + 10, 10))
+
+        # Display mousetrap count and generation
+        player_trap_text = xsmall_font.render(f"Player Mousetraps: {player_mousetraps_count}", True, WHITE)
+        generation_text = xsmall_font.render(f"AI Generations: {generation // f}", True, WHITE)
+
+        screen.blit(player_trap_text, (10, 40))
+        screen.blit(generation_text, (SCREEN_WIDTH // 2 + 10, 40))
 
         pygame.display.flip()
         clock.tick(FPS)
