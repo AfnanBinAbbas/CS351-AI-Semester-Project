@@ -295,20 +295,44 @@ def visualize_performance():
     """Visualizes the logged performance data."""
     try:
         global log_data
+
+        # Player's performance graph
+        plt.figure(figsize=(10, 6))
+        plt.plot(log_data['Player_Mousetraps'], log_data['Player_Kills'], label='Player Kills', color='blue')
+        plt.xlabel('Number of Mousetraps Placed')
+        plt.ylabel('Player Kills')
+        plt.title('Player Performance')
+        plt.grid()
+        plt.legend()
+        plt.show()
+
+        # AI's performance graph
         plt.figure(figsize=(10, 6))
         plt.plot(log_data['Generation'], log_data['AI_Kills'], label='AI Kills', color='red')
-        plt.plot(log_data['Generation'], log_data['Player_Kills'], label='Player Kills', color='blue')
-        plt.plot(log_data['Generation'], log_data['Average_AI_Health'], label='Avg AI Health', color='green')
+        plt.plot(log_data['Generation'], log_data['Average_AI_Health'], label='Average AI Health', color='green')
         plt.xlabel('Generation')
-        plt.ylabel('Metrics')
-        plt.title('AI Performance Metrics')
-        plt.legend()
+        plt.ylabel('AI Metrics')
+        plt.title('AI Performance')
         plt.grid()
+        plt.legend()
         plt.show()
+
+        # Comparative graph of Player's and AI's kills
+        plt.figure(figsize=(10, 6))
+        plt.plot(log_data['Player_Mousetraps'], log_data['Player_Kills'], label='Player Kills', color='blue')
+        plt.plot(log_data['Generation'], log_data['AI_Kills'], label='AI Kills', color='red')
+        plt.xlabel('Number of Mousetraps Placed (Player) / Generation (AI)')
+        plt.ylabel('Number of Kills')
+        plt.title('Player vs AI Kills Comparison')
+        plt.grid()
+        plt.legend()
+        plt.show()
+
     except Exception as e:
         print(f"Error visualizing performance data: {e}")
 
-# Main function and menu remain unchanged
+
+# Main function and menu
 
 def main_menu():
     while True:
@@ -342,6 +366,7 @@ def main():
     pygame.mixer.music.play(-1)
     
     mousetraps_player = []
+    player_mousetraps_count = 0
     n = 15
     mice = [Mouse(use_image=True) for _ in range(n)]  # Player's mice
     mice_ai = [Mouse(offset=SCREEN_WIDTH // 2, use_image=True) for _ in range(n)]  # AI's mice
@@ -369,6 +394,7 @@ def main():
                     grid_x = (mouse_x // GRID_SIZE) * GRID_SIZE + GRID_SIZE // 2
                     grid_y = (mouse_y // GRID_SIZE) * GRID_SIZE + GRID_SIZE // 2
                     mousetraps_player.append(Mousetrap(grid_x, grid_y))
+                    player_mousetraps_count += 1
 
         for mouse in mice[:]:
             mouse.move()
@@ -397,8 +423,10 @@ def main():
             'Generation': [generation],
             'AI_Kills': [ai_kills],
             'Player_Kills': [player_kills],
-            'Average_AI_Health': [avg_health]
+            'Average_AI_Health': [avg_health],
+            'Player_Mousetraps': [player_mousetraps_count]  # Log mousetrap count
         })
+
         generation += 1
 
         screen.fill(BLACK)

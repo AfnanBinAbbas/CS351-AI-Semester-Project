@@ -1,0 +1,1 @@
+ # Log mousetrap count
