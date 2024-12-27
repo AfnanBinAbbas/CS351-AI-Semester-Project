@@ -1,1 +1,2 @@
- # Log mousetrap count
+music)
+    pygame.mixer.music.play(-1)

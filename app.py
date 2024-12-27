@@ -15,7 +15,7 @@ except pygame.error as e:
 # Screen and grid settings
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
-GRID_SIZE = 10
+GRID_SIZE = 30
 FPS = 60
 
 # Colors
@@ -378,7 +378,7 @@ def main():
     
     mousetraps_player = []
     player_mousetraps_count = 0
-    n = 15
+    n = 15  # number of mouse in the grid
     mice = [Mouse(use_image=True) for _ in range(n)]  # Player's mice
     mice_ai = [Mouse(offset=SCREEN_WIDTH // 2, use_image=True) for _ in range(n)]  # AI's mice
 
@@ -392,7 +392,8 @@ def main():
     log_data = pd.DataFrame(columns=['Generation', 'AI_Kills', 'Player_Kills', 'Average_AI_Health'])
 
     generation = 0
-    f=5 #frequency of generating a new generation
+    display_generation = 0  # Track the displayed generation
+    f = 5  # Frequency of generating a new generation (if f is big, then generations are less)
 
     while True:
         for event in pygame.event.get():
@@ -422,21 +423,21 @@ def main():
                 ai_kills += 1
                 if ai_kills == n:
                     win("AI", n)
-        
-        # Genetic Algorithm update. Create a new generation every n frames
-        
+
+        # Genetic Algorithm update. Create a new generation every f frames
         if generation % f == 0:
             ga.create_new_generation(mice_ai)
+            display_generation += 1  # Increment the displayed generation
 
         # UI update
         avg_health = sum(mouse.health for mouse in mice_ai) / len(mice_ai) if mice_ai else 0
         if generation % f == 0:
             log_data = append_log_data(log_data, {
-            'Generation': [generation],
-            'AI_Kills': [ai_kills],
-            'Player_Kills': [player_kills],
-            'Average_AI_Health': [avg_health],
-            'Player_Mousetraps': [player_mousetraps_count]  # Log mousetrap count
+                'Generation': [display_generation],  # Log the displayed generation
+                'AI_Kills': [ai_kills],
+                'Player_Kills': [player_kills],
+                'Average_AI_Health': [avg_health],
+                'Player_Mousetraps': [player_mousetraps_count]  # Log mousetrap count
             })
 
         generation += 1
@@ -466,7 +467,7 @@ def main():
 
         # Display mousetrap count and generation
         player_trap_text = xsmall_font.render(f"Player Mousetraps: {player_mousetraps_count}", True, WHITE)
-        generation_text = xsmall_font.render(f"No. of Generations: {generation // f}", True, WHITE)
+        generation_text = xsmall_font.render(f"No. of Generations: {display_generation}", True, WHITE)
 
         screen.blit(player_trap_text, (10, 40))
         screen.blit(generation_text, (SCREEN_WIDTH // 2 + 10, 40))
