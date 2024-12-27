@@ -393,7 +393,7 @@ def main():
 
     generation = 0
     display_generation = 0  # Track the displayed generation
-    f = 5  # Frequency of generating a new generation (if f is big, then generations are less)
+    f = 10  # Frequency of generating a new generation (if f is big, then generations are less)
 
     while True:
         for event in pygame.event.get():
