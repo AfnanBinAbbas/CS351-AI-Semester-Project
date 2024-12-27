@@ -15,7 +15,7 @@ except pygame.error as e:
 # Screen and grid settings
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
-GRID_SIZE = 30
+GRID_SIZE = 20
 FPS = 60
 
 # Colors
@@ -160,7 +160,7 @@ class Mousetrap:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.range = GRID_SIZE * 3  # Effective range of the trap
+        self.range = GRID_SIZE*2  # Effective range of the trap
         self.damage = 5  # Incremental damage per attack
         self.cooldown = 40  # Time (in frames) between attacks
         self.timer = 0  # Timer to handle cooldowns
@@ -460,14 +460,14 @@ def main():
             enemy.draw()
 
         # Display Player and AI scores
-        player_score_text = xsmall_font.render(f"Player's Score: {player_kills}", True, WHITE)
-        ai_score_text = xsmall_font.render(f"AI's Score: {ai_kills}", True, WHITE)
+        player_score_text = xsmall_font.render(f"Player's Kills: {player_kills}", True, WHITE)
+        ai_score_text = xsmall_font.render(f"AI's Kills: {ai_kills}", True, WHITE)
         screen.blit(player_score_text, (10, 10))
         screen.blit(ai_score_text, (SCREEN_WIDTH // 2 + 10, 10))
 
         # Display mousetrap count and generation
-        player_trap_text = xsmall_font.render(f"Player Mousetraps: {player_mousetraps_count}", True, WHITE)
-        generation_text = xsmall_font.render(f"No. of Generations: {display_generation}", True, WHITE)
+        player_trap_text = xsmall_font.render(f"Mousetraps Placed: {player_mousetraps_count}", True, WHITE)
+        generation_text = xsmall_font.render(f"No of Generations: {display_generation}", True, WHITE)
 
         screen.blit(player_trap_text, (10, 40))
         screen.blit(generation_text, (SCREEN_WIDTH // 2 + 10, 40))
