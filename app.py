@@ -160,10 +160,17 @@ class Mousetrap:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.range = GRID_SIZE*2  # Effective range of the trap
-        self.damage = 5  # Incremental damage per attack
+        self.range = GRID_SIZE * 2  # Effective range of the trap
+        self.damage = 10  # Incremental damage per attack
         self.cooldown = 40  # Time (in frames) between attacks
         self.timer = 0  # Timer to handle cooldowns
+        try:
+            # Load the mousetrap image once during initialization
+            self.image = pygame.image.load("images/mousetrap.png")
+            self.image = pygame.transform.scale(self.image, (GRID_SIZE, GRID_SIZE))
+        except pygame.error as e:
+            print(f"Error loading mousetrap image: {e}")
+            self.image = None  # Fallback to no image
 
     def attack(self, mice):
         """Attacks mice within range incrementally."""
@@ -183,7 +190,12 @@ class Mousetrap:
 
     def draw(self, offset=0):
         """Draws the mousetrap."""
-        pygame.draw.circle(screen, ORANGE, (self.x + offset, self.y), GRID_SIZE // 2)
+        if self.image:
+            screen.blit(self.image, (self.x + offset, self.y))
+        else:
+            # Fallback: Draw a circle if the image is missing
+            pygame.draw.circle(screen, ORANGE, (self.x + offset, self.y), GRID_SIZE // 2)
+
 
 
 class GeneticAlgorithm:
